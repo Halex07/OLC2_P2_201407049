@@ -1,0 +1,184 @@
+public class Main {
+    public static void main(String[] args) {
+        System.out.println("=== SISTEMA DE ANALISIS DE DATOS ACADEMICOS ===\n" +
+                "\n" +
+                "--- DECLARACION DE MATRICES 2D ---\n" +
+                "Matrices 2D declaradas exitosamente:\n" +
+                "- calificacionesPorMateria: 4 x 4\n" +
+                "- promediosPorSemestre: 4 x 6\n" +
+                "- matrizA: 3 x 3\n" +
+                "- matrizB: 3 x 3\n" +
+                "\n" +
+                "--- DECLARACION DE MATRICES 3D ---\n" +
+                "Matrices 3D declaradas exitosamente:\n" +
+                "- evaluacionesDetalladas: 4 x 4 x 3\n" +
+                "- temperaturasPorDia: 2 x 3 x 3\n" +
+                "\n" +
+                "--- MODIFICACION DE ELEMENTOS 2D ---\n" +
+                "Calificación original del Estudiante 1 en Física: 92\n" +
+                "Nueva calificación del Estudiante 1 en Física: 95\n" +
+                "Modificaciones adicionales realizadas en otras posiciones\n" +
+                "Matriz de promedios por semestre inicializada\n" +
+                "\n" +
+                "--- MODIFICACION DE ELEMENTOS 3D ---\n" +
+                "Cubo de evaluaciones detalladas inicializado:\n" +
+                "- Estudiante 1, Matemáticas: [88, 92, 85]\n" +
+                "- Estudiante 4, Biología: [96, 93, 97]\n" +
+                "Temperaturas específicas modificadas\n" +
+                "\n" +
+                "--- ACCESO A ELEMENTOS 2D ---\n" +
+                "Análisis de calificaciones por estudiante:\n" +
+                "Estudiante Ana:\n" +
+                "  Matemáticas: 85\n" +
+                "  Física: 95\n" +
+                "  Química: 78\n" +
+                "  Biología: 90\n" +
+                "  Promedio: 87.0\n" +
+                "\n" +
+                "Estudiante Luis:\n" +
+                "  Matemáticas: 90\n" +
+                "  Física: 88\n" +
+                "  Química: 85\n" +
+                "  Biología: 93\n" +
+                "  Promedio: 89.0\n" +
+                "\n" +
+                "Estudiante María:\n" +
+                "  Matemáticas: 82\n" +
+                "  Física: 82\n" +
+                "  Química: 90\n" +
+                "  Biología: 87\n" +
+                "  Promedio: 85.25\n" +
+                "\n" +
+                "Estudiante Carlos:\n" +
+                "  Matemáticas: 95\n" +
+                "  Física: 91\n" +
+                "  Química: 90\n" +
+                "  Biología: 94\n" +
+                "  Promedio: 92.5\n" +
+                "\n" +
+                "Acceso directo a elementos específicos:\n" +
+                "Primera calificación (Ana, Matemáticas): 85\n" +
+                "Última calificación (Carlos, Biología): 94\n" +
+                "Elemento central: 90\n" +
+                "\n" +
+                "--- ACCESO A ELEMENTOS 3D ---\n" +
+                "Análisis de evaluaciones detalladas:\n" +
+                "Estudiante Ana:\n" +
+                "  Matemáticas:\n" +
+                "    Examen 1: 88\n" +
+                "    Examen 2: 92\n" +
+                "    Proyecto: 85\n" +
+                "  Física:\n" +
+                "\n" +
+                "Estudiante Luis:\n" +
+                "  Matemáticas:\n" +
+                "  Física:\n" +
+                "    Examen 1: 85\n" +
+                "    Examen 2: 90\n" +
+                "    Proyecto: 88\n" +
+                "\n" +
+                "Temperaturas registradas:\n" +
+                "Semana 1:\n" +
+                "  Lunes:\n" +
+                "    Mañana: 20.5°C\n" +
+                "    Tarde: 22.1°C\n" +
+                "    Noche: 25.3°C\n" +
+                "  Martes:\n" +
+                "    Mañana: 19.8°C\n" +
+                "    Tarde: 21.5°C\n" +
+                "    Noche: 25.5°C\n" +
+                "  Miércoles:\n" +
+                "    Mañana: 21.2°C\n" +
+                "    Tarde: 23.0°C\n" +
+                "    Noche: 26.1°C\n" +
+                "Semana 2:\n" +
+                "  Lunes:\n" +
+                "    Mañana: 18.5°C\n" +
+                "    Tarde: 21.8°C\n" +
+                "    Noche: 23.3°C\n" +
+                "  Martes:\n" +
+                "    Mañana: 17.8°C\n" +
+                "    Tarde: 19.5°C\n" +
+                "    Noche: 22.7°C\n" +
+                "  Miércoles:\n" +
+                "    Mañana: 19.2°C\n" +
+                "    Tarde: 21.0°C\n" +
+                "    Noche: 24.1°C\n" +
+                "\n" +
+                "--- OPERACIONES CON MATRICES ---\n" +
+                "Matriz A:\n" +
+                "  [3, 2, 1]\n" +
+                "  [1, 4, 2]\n" +
+                "  [2, 1, 3]\n" +
+                "\n" +
+                "Matriz B:\n" +
+                "  [2, 1, 3]\n" +
+                "  [3, 2, 1]\n" +
+                "  [1, 3, 2]\n" +
+                "\n" +
+                "Suma A + B:\n" +
+                "  [5, 3, 4]\n" +
+                "  [4, 6, 3]\n" +
+                "  [3, 4, 5]\n" +
+                "\n" +
+                "Producto A × B:\n" +
+                "  [13, 10, 13]\n" +
+                "  [16, 15, 11]\n" +
+                "  [10, 13, 13]\n" +
+                "\n" +
+                "Verificando operaciones:\n" +
+                "- Suma completada correctamente\n" +
+                "- Multiplicación completada correctamente\n" +
+                "\n" +
+                "--- TRANSPUESTA DE MATRIZ ---\n" +
+                "Matriz original (3x4):\n" +
+                "  [1, 2, 3, 4]\n" +
+                "  [5, 6, 7, 8]\n" +
+                "  [9, 10, 11, 12]\n" +
+                "\n" +
+                "Matriz transpuesta (4x3):\n" +
+                "  [1, 5, 9]\n" +
+                "  [2, 6, 10]\n" +
+                "  [3, 7, 11]\n" +
+                "  [4, 8, 12]\n" +
+                "\n" +
+                "Transpuesta de matriz A:\n" +
+                "  [3, 1, 2]\n" +
+                "  [2, 4, 1]\n" +
+                "  [1, 2, 3]\n" +
+                "\n" +
+                "Doble transpuesta de A (debe ser igual a A original):\n" +
+                "  [3, 2, 1]\n" +
+                "  [1, 4, 2]\n" +
+                "  [2, 1, 3]\n" +
+                "\n" +
+                "--- CALCULO DE DETERMINANTES ---\n" +
+                "Matriz 2x2:\n" +
+                "  [4, 3]\n" +
+                "  [2, 1]\n" +
+                "\n" +
+                "Determinante 2x2: -2\n" +
+                "\n" +
+                "Segunda matriz 2x2:\n" +
+                "  [5, 2]\n" +
+                "  [3, 4]\n" +
+                "\n" +
+                "Determinante 2x2: 14\n" +
+                "\n" +
+                "Matriz A (3x3):\n" +
+                "  [3, 2, 1]\n" +
+                "  [1, 4, 2]\n" +
+                "  [2, 1, 3]\n" +
+                "\n" +
+                "Determinante 3x3 de matriz A: 25\n" +
+                "\n" +
+                "Matriz especial 3x3:\n" +
+                "  [2, -1, 3]\n" +
+                "  [1, 0, 1]\n" +
+                "  [1, 2, -1]\n" +
+                "\n" +
+                "Determinante 3x3: 0\n" +
+                "\n" +
+                "=== ANALISIS DE DATOS ACADEMICOS COMPLETADO ===");
+    }
+}

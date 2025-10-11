@@ -1,0 +1,11 @@
+digraph AST {
+rankdir=TB;
+node [shape=ellipse, style=filled, fontname="Arial"];
+  node_0 [label="Block\n[1:1]"];
+  node_1 [label="Declaration\n[1:1]"];
+  node_0 -> node_1;
+  node_2 [label="Primitive\n[1:1]"];
+  node_1 -> node_2;
+  node_3 [label="SWITCH\n[1:1]"];
+  node_0 -> node_3;
+}
