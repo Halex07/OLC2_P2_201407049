@@ -14,3 +14,15 @@ gcc `pkg-config --cflags gtk+-3.0` mi_app.c -o henry `pkg-config --libs gtk+-3.0
 para abrir la interfaz
 ./henry
 
+=============================== ARM 64 ===============================
+1. sudo apt update
+2. sudo apt install qemu qemu-user qemu-user-static qemu-system-arm qemu-system-misc
+3. sudo apt install gcc-aarch64-linux-gnu g++-aarch64-linux-gnu
+
+1.1 sudo apt install qemu-user qemu-user-static qemu-system-arm qemu-system-misc 
+
+aarch64-linux-gnu-gcc -static -o program program.s
+qemu-aarch64 ./program
+
+// Compilar y ejecutar con Makefile
+make exec FILE=program.txt

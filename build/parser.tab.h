@@ -119,21 +119,19 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 50 "src/parser/parser.y"
+#line 48 "src/parser/parser.y"
 
   double     dble;
   float      ftnt;
   NodoBase*  node;
   struct ArgList* args;  /* lista de argumentos */
   struct Param*   plist; /* lista de parámetros */  
-  struct CaseNode* newCaso;
-  struct ExprList* exprlist;
   char*      str;
   char       ch;
   int         num;
   int tipo;
 
-#line 137 "build/parser.tab.h"
+#line 135 "build/parser.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

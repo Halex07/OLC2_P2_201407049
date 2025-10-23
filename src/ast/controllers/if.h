@@ -6,10 +6,13 @@
 typedef struct If
 {
   NodoBase base;
-  NodoBase *condicion;
-  NodoBase *bloque;
+  NodoBase *condicion;   // condición booleana
+  NodoBase *bloqueIf;    // bloque del if
+  NodoBase *bloqueElse;  // bloque opcional del else
 } If;
 
-If *NewIf(int lin, int col, NodoBase *condicion, NodoBase *bloque);
+/* Constructores */
+If *NewIf(int lin, int col, NodoBase *condicion, NodoBase *bloqueIf);
+If *NewIfElse(int lin, int col, NodoBase *condicion, NodoBase *bloqueIf, NodoBase *bloqueElse);
 
 #endif

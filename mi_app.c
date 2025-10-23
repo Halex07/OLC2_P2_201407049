@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-#define COMPILER_CMD "./build/calc"  // Ruta al binario
+#define COMPILER_CMD "./build/calc"  // La ruta al binario
 
 typedef struct {
     GtkWidget *win;
@@ -20,103 +20,88 @@ static char* get_input(App *app){
     return gtk_text_buffer_get_text(app->in_buf, &a, &b, FALSE); // g_free luego
 }
 
-// --- Ventana AST ---
+// para habrir en otra ventana el ast
 void on_ast_button_clicked(GtkWidget *widget, gpointer data)
 {
-    (void)widget;
-    GtkWidget *parent_window = GTK_WIDGET(data);
-    GtkWidget *window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+    GtkWidget *window;
+    GtkWidget *image;
+
+    // crear ventana
+    window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
     gtk_window_set_title(GTK_WINDOW(window), "AST");
     gtk_window_set_default_size(GTK_WINDOW(window), 800, 600);
-    gtk_window_set_transient_for(GTK_WINDOW(window), GTK_WINDOW(parent_window));
 
-    GtkWidget *image = gtk_image_new_from_file("ast.png");
+    // cargar la imagen PNG
+    image = gtk_image_new_from_file("ast.png");
+
+    // meter la imagen en la ventana
     gtk_container_add(GTK_CONTAINER(window), image);
 
     gtk_widget_show_all(window);
 }
-
-// --- Ventana Tabla de Símbolos ---
-void simbolo(GtkWidget *parent) {
-    GtkWidget *window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-    gtk_window_set_title(GTK_WINDOW(window), "Tabla de Símbolos");
-    gtk_window_set_default_size(GTK_WINDOW(window), 500, 200);
-    gtk_window_set_transient_for(GTK_WINDOW(window), GTK_WINDOW(parent));
-
-    GtkWidget *grid = gtk_grid_new();
-    gtk_grid_set_row_spacing(GTK_GRID(grid), 5);
-    gtk_grid_set_column_spacing(GTK_GRID(grid), 10);
-    gtk_container_set_border_width(GTK_CONTAINER(grid), 10);
-
-    // Cabecera
-    gtk_grid_attach(GTK_GRID(grid), gtk_label_new("ID"), 0, 0, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), gtk_label_new("Tipo"), 1, 0, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), gtk_label_new("Valor"), 2, 0, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), gtk_label_new("Fila"), 3, 0, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), gtk_label_new("Columna"), 4, 0, 1, 1);
-
-    // Datos "quemados"
-    gtk_grid_attach(GTK_GRID(grid), gtk_label_new("1"), 0, 1, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), gtk_label_new("variable"), 1, 1, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), gtk_label_new("hola"), 2, 1, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), gtk_label_new("13"), 3, 1, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), gtk_label_new("2"), 4, 1, 1, 1);
-
-    gtk_container_add(GTK_CONTAINER(window), grid);
-    gtk_widget_show_all(window);
-}
-
-// --- Callback Botón Tabla Símbolos ---
-static void on_button_clicked(GtkWidget *widget, gpointer data) {
-    GtkWidget *parent_window = GTK_WIDGET(data);
-    simbolo(parent_window);
-}
-
 // --- Botón Ejecutar ---
-static void on_run(GtkButton *btn, gpointer u){
+static void on_run(GtkButton *btn, gpointer u)
+{
     (void)btn;
     App *app = u;
-
     char *code = get_input(app);
-    gchar *tmp_path = NULL;
-    GError *err = NULL;
-
-    int fd = g_file_open_tmp("temporal-XXXXXX.txt", &tmp_path, &err);
-    if (fd == -1){
-        set_output(app, err ? err->message : "Error al crear tmp");
-        if (err) g_error_free(err);
+    char tmpname[] = "/tmp/temporalXXXXXX";
+    int fd = mkstemp(tmpname);
+    if (fd == -1)
+    {
+        set_output(app, "Error creando archivo temporal");
         g_free(code);
         return;
     }
     close(fd);
 
-    if (!g_file_set_contents(tmp_path, code, -1, &err)){
-        set_output(app, err ? err->message : "Error al escribir tmp");
-        if (err) g_error_free(err);
+    gchar *tmp_path = g_strdup(tmpname);
+    GError *err = NULL;
+
+    // Guardar el código fuente en archivo temporal
+    if (!g_file_set_contents(tmp_path, code, -1, &err))
+    {
+        set_output(app, err ? err->message : "Error escribiendo archivo temporal");
+        if (err)
+            g_error_free(err);
         g_free(tmp_path);
         g_free(code);
         return;
     }
 
-    gchar *cmd = g_strdup_printf("%s %s 2>&1", COMPILER_CMD, tmp_path);
-    gchar *out = NULL;
-    gint status = 0;
-    GError *spawn_err = NULL;
+    // Ejecutar el compilador para generar ARM64
+    gchar *cmd = g_strdup_printf("%s %s > /dev/null 2>&1", COMPILER_CMD, tmp_path);
+    int ret = system(cmd);
 
-    gboolean ok = g_spawn_command_line_sync(cmd, &out, NULL, &status, &spawn_err);
-    if (!ok){
-        set_output(app, spawn_err ? spawn_err->message : "Error al ejecutar");
-        if (spawn_err) g_error_free(spawn_err);
-    } else {
-        set_output(app, (out && *out) ? out : "No hay mensaje de salida");
+    if (ret != 0)
+    {
+        set_output(app, "Error: no se pudo generar el código ARM64.");
+    }
+    else
+    {
+        // Leer el archivo output.s y mostrarlo en el panel de salida
+        gchar *arm_code = NULL;
+        gsize length = 0;
+
+        if (g_file_get_contents("output.s", &arm_code, &length, &err))
+        {
+            set_output(app, arm_code);
+            g_free(arm_code);
+        }
+        else
+        {
+            set_output(app, "No se encontró el archivo output.s (quizás falló la generación).");
+            if (err)
+                g_error_free(err);
+        }
     }
 
-    if (out) g_free(out);
     unlink(tmp_path);
     g_free(tmp_path);
     g_free(cmd);
     g_free(code);
 }
+
 
 // --- Botón Abrir ---
 static void on_open(GtkButton *btn, gpointer u){
@@ -171,13 +156,13 @@ static void on_activate(GtkApplication *app, gpointer u){
     GtkWidget *b_open = gtk_button_new_with_label("Abrir");
     GtkWidget *b_run  = gtk_button_new_with_label("Ejecutar");
     GtkWidget *b_ast  = gtk_button_new_with_label("Grafica AST");
-    GtkWidget *b_bt   = gtk_button_new_with_label("Tabla Simbolos");
-    GtkWidget *b_te   = gtk_button_new_with_label("Tabla Errores");
+    GtkWidget *b_tb  = gtk_button_new_with_label("Tabla Simbolos");
+    GtkWidget *b_te  = gtk_button_new_with_label("Tabla Errores");
 
     gtk_box_pack_start(GTK_BOX(hbox_buttons), b_open, FALSE, FALSE, 0);
     gtk_box_pack_start(GTK_BOX(hbox_buttons), b_run,  FALSE, FALSE, 0);
     gtk_box_pack_start(GTK_BOX(hbox_buttons), b_ast,  FALSE, FALSE, 0);
-    gtk_box_pack_start(GTK_BOX(hbox_buttons), b_bt,  FALSE, FALSE, 0);
+    gtk_box_pack_start(GTK_BOX(hbox_buttons), b_tb,  FALSE, FALSE, 0);
     gtk_box_pack_start(GTK_BOX(hbox_buttons), b_te,  FALSE, FALSE, 0);
     
     gtk_box_pack_start(GTK_BOX(vbox), hbox_buttons, FALSE, FALSE, 0);
@@ -201,8 +186,7 @@ static void on_activate(GtkApplication *app, gpointer u){
     // Conectar señales
     g_signal_connect(b_open, "clicked", G_CALLBACK(on_open), A);
     g_signal_connect(b_run,  "clicked", G_CALLBACK(on_run),  A);
-    g_signal_connect(b_bt,   "clicked", G_CALLBACK(on_button_clicked), A->win);
-    g_signal_connect(b_ast,  "clicked", G_CALLBACK(on_ast_button_clicked), A->win);  
+    g_signal_connect(b_ast,  "clicked", G_CALLBACK( on_ast_button_clicked),  A);  
 
     gtk_widget_show_all(A->win);
 }

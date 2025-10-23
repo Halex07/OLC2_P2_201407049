@@ -1,13 +1,139 @@
-int d = 6;
-switch(d){
-    case 1|3|5|7|9:
-        System.out.println("Impar");
-    break;
-        case 2|4|6|8|10:
-         System.out.println("Par");
-    break; 
+ 
+ int x = 2 + 5;
+int y = 3;
+int z = 10/5;
+y = 100;
+System.out.println(x);
+System.out.println(y);
+System.out.println(5);
+float pi = 3.1416245f;
+float xz = 2.5f;
+System.out.println(pi + xz);
+System.out.println(xz);
+System.out.println(z);
+String loca = "te dicen";
+System.out.println(loca);
+System.out.println("hola mundo");
+System.out.println("                    haveriguar por que lo pusistes");
 
+System.out.println("ya se por que lo puse");
+int entero = 225;
+System.out.println("======= valor entero =======");
+System.out.println(entero);
 
-    default:
-         System.out.println("Otro");
+int a = 5;
+int b = 3;
+int f = 1;
+int bb = -3;
+System.out.println("======= bit and =======");
+System.out.println(a&b);
+System.out.println("======= bit or =======");
+System.out.println(a|b);
+System.out.println("======= bit xor =======");
+System.out.println(a^b);
+System.out.println("======= desplazamiento << =======");
+System.out.println(b<<f);
+System.out.println("======= desplazamiento >> =======");
+System.out.println(b>>f);
+System.out.println("======= desplazamiento negativo >> =======");
+System.out.println(bb>>f);
+
+String ac = "hola";
+String bc = "holas";
+System.out.println("======= comparacion equals =======");
+System.out.println(ac.equals(bc));
+
+if(a > b){
+    System.out.println("si a mayor");
 }
+
+
+if(b < a){
+    System.out.println("si b menor");
+}else{
+    System.out.println("si a mayor");
+}
+
+b = 33;
+if(b < a){
+    System.out.println("si b menor");
+}else if (a > b){
+    System.out.println("si a mayor");
+}else{
+    System.out.println("operacion invalida");
+}
+
+int ciclo = 0;
+System.out.println("======= bucle while =======");
+while(ciclo < 10) {
+    System.out.println(ciclo);
+    ciclo = ciclo + 1;
+}
+
+System.out.println("======= bucle for =======");
+for (int ii = 0; ii < 5; ii= ii + 1) {
+    System.out.println(ii);
+}
+
+
+
+ 
+System.out.println("======= String valueOf =======");
+int numero = 35;
+String s1 = String.valueOf(numero);
+System.out.println(s1);
+
+
+
+System.out.println("======= String valueOf String=======");
+String cadena = "23.17";
+String cad = String.valueOf(cadena);
+System.out.println(cad);
+
+System.out.println("======= String valueOf int=======");
+int valor = 19;
+String s3 = String.valueOf(valor);
+System.out.println(s3);
+
+System.out.println("======= String valueOf float=======");
+float dobu= 19.19f;
+String s9 = String.valueOf(dobu);
+System.out.println(s9);
+
+
+System.out.println("======= parse float =======");
+float s5 = Float.parseFloat("15.15");
+System.out.println(s5);
+
+
+public String hola(){
+    System.out.println(" fredy Mercury Pirrir el mariflor69");
+}
+
+public int saludar() {
+    int x = 42;
+    System.out.println(x);
+}
+
+public int suma(int a, int b) {
+    int resultado = a + b; 
+    return resultado;
+}
+
+
+System.out.println("======= llamada al main =======");
+
+public static void moin(){
+    int x = suma(23, 5);
+    System.out.println(x);
+    int y = saludar();
+    System.out.println(y);
+    int z = hola();
+    System.out.println(z);
+
+}
+int func = moin();
+
+
+
+

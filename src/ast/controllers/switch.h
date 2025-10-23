@@ -3,31 +3,20 @@
 
 #include "ast/AbstractTerminal.h"
 
-/* Lista de expresiones para un case */
-typedef struct ExprList {
+typedef struct {
     NodoBase* expr;
-    struct ExprList* next;
-} ExprList;
-
-typedef struct CaseNode {
-    ExprList* exprs;     // antes: NodoBase* expr
     NodoBase* block;
-    struct CaseNode* next;
-} CaseNode;
+} CaseArray;
 
-
-typedef struct Switch {
+typedef struct {
     NodoBase base;
-    NodoBase* expr;
-    CaseNode* cases;
-} Switch;
+    NodoBase* expr;    
+    CaseArray* cases; 
+    int count;        
+    int capacity;      
+} SwitchArray;
 
-/* Constructores */
-ExprList* NewExprList(NodoBase* expr);
-ExprList* AddExpr(ExprList* list, NodoBase* expr);
-
-CaseNode* NewCaseNode(ExprList* exprs, NodoBase* block);
-CaseNode* AddCaseNode(CaseNode* list, CaseNode* nuevo);
-Switch* NewSwitch(int lin, int col, NodoBase* expr, CaseNode* cases);
+SwitchArray* NewSwitchArray(int lin, int col, NodoBase* expr);
+void AddCaseArray(SwitchArray* s, NodoBase* expr, NodoBase* block);
 
 #endif

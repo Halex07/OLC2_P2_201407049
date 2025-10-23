@@ -1,29 +1,36 @@
-#include <stdlib.h>
-#include <stdio.h>
+ #include <stdlib.h>
 #include "ast/sentencias/return.h"
-#include "entorno/environment.h"
-#include "entorno/ast.h"
 
-static Symbol Ejecutar(NodoBase *self, AST *ast, void *env) {
-    Return *retun = (Return *)self;
-    Symbol s = retun->expr ? NodoBase_Ejecutar(retun->expr, ast, env) : (Symbol){ .tipo = T_VOID };
+static Symbol Ejecutar(NodoBase *self, AST *ast, void *env)
+{
+  (void)ast;
+  (void)env;
+  Return *r = (Return *)self;
 
-    s.tipo = T_RETURN;
-    s.lin = self->lin;
-    s.col = self->col;
-    return s;
+  // Si hay expresión, evaluarla y retornar su valor
+  if (r->expr)
+  {
+    return NodoBase_Ejecutar(r->expr, ast, env);
+  }
+
+  // Return sin valor
+  return SymNull(self->lin, self->col);
 }
 
-static void Destruir(NodoBase *self) {
-    Return *retun = (Return *)self;
-    if (retun->expr) NodoBase_Destruir(retun->expr);
-    free(retun);
+static void Destruir(NodoBase *self)
+{
+  Return *r = (Return *)self;
+  if (r->expr)
+  {
+    NodoBase_Destruir(r->expr);
+  }
+  free(r);
 }
 
-
-Return *NewReturn(int lin, int col, NodoBase *expr) {
-    Return *retun = (Return *)malloc(sizeof(Return));
-    retun->expr = expr;
-    NodoBase_init(&retun->base, "RETURN", lin, col, Ejecutar, Destruir);
-    return retun;
+Return *NewReturn(int lin, int col, NodoBase *expr)
+{
+  Return *r = (Return *)malloc(sizeof(Return));
+  NodoBase_init(&r->base, "Return", lin, col, Ejecutar, Destruir);
+  r->expr = expr;
+  return r;
 }

@@ -25,6 +25,7 @@ typedef struct Environment
     VarNode *Tabla;
     const char *id; 
     FuncNode *Functions;
+    int offset;
 } Environment;
 
 void Env_init(Environment *env, Environment *ant, const char *id);

@@ -4,6 +4,10 @@ CC      := gcc
 BISON   := bison           # en Windows con win_flex_bison usa: win_bison
 FLEX    := flex            # en Windows con win_flex_bison usa: win_flex
 
+# ARM64 tools
+GCC_ARM  := aarch64-linux-gnu-gcc
+QEMU    := qemu-aarch64
+
 # Incluye donde se generan headers del parser y todo src/
 CFLAGS  := -I$(BUILD) -Isrc -Isrc/headers -Wall -Wextra -g
 LDFLAGS :=
@@ -13,12 +17,12 @@ PARSER := src/parser/parser.y
 LEXER  := src/parser/lexer.l
 
 # Todos los .c propios (no incluye los generados por bison/flex)
-SRC_DIRS := src src/entorno src/ast src/ast/expresiones src/ast/sentencias src/ast/controllers
+SRC_DIRS := src src/entorno src/ast src/ast/expresiones src/ast/sentencias src/ast/controllers src/generator
 SRCS := $(foreach d,$(SRC_DIRS),$(wildcard $(d)/*.c))
 SRCS += main.c 
   
 
-.PHONY: all run clean
+.PHONY: all run clean asm exec
 
 all: $(BUILD)/calc
 
@@ -42,5 +46,14 @@ $(BUILD)/calc: $(BUILD)/parser.tab.c $(BUILD)/lex.yy.c $(SRCS) | $(BUILD)
 run: $(BUILD)/calc
 	@./$(BUILD)/calc $(FILE)
 
+# Compilar ARM64: make asm FILE=program.txt
+asm: $(BUILD)/calc
+	@./$(BUILD)/calc $(FILE)
+	$(GCC_ARM) -static -o $(basename $(FILE)) $(basename $(FILE)).s
+
+# Ejecutar ARM64: make exec FILE=program.txt
+exec: asm
+	@$(QEMU) ./$(basename $(FILE))
+
 clean:
-	@rm -rf $(BUILD)
+	@rm -rf $(BUILD) *.o program output test_if test_completo
